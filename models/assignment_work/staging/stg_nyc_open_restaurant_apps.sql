@@ -31,7 +31,7 @@ cleaned AS (
        CAST(time_of_submission AS TIMESTAMP) AS time_of_submission,
 
        -- Application numerical dimensions
-       CAST(sidewalk_dimensions_length, AS INTEGER) AS sidewalk_dimensions_length,
+       CAST(sidewalk_dimensions_length AS INTEGER) AS sidewalk_dimensions_length,
        CAST(sidewalk_dimensions_width AS INTEGER) AS side_walk_dimensions_width,
        CAST(sidewalk_dimensions_area AS INTEGER) AS sidewalk_dimensions_area,
        CAST(roadway_dimensions_length AS INTEGER) AS roadway_dimensions_length,
