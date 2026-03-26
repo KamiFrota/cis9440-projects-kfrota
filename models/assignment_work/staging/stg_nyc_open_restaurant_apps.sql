@@ -36,7 +36,7 @@ cleaned AS (
        CAST(sidewalk_dimensions_area AS INTEGER) AS sidewalk_dimensions_area,
        CAST(roadway_dimensions_length AS INTEGER) AS roadway_dimensions_length,
        CAST(roadway_dimensions_width AS INTEGER) AS roadway_dimensions_width,
-       CAST(roadway_dimensions_area AS INTEGER) AS roadway_dimensions_area
+       CAST(roadway_dimensions_area AS INTEGER) AS roadway_dimensions_area,
 
        -- Location - clean zip code, handling several common zip code data problems
        CASE
