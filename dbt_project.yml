@@ -54,5 +54,5 @@ models:
         vehicle_crashes:
           +materialized: table
 
-        nyc_311_complaints:
+        311_vehicle_complaints:
           +materialized: table
