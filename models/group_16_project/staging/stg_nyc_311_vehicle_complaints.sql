@@ -93,7 +93,7 @@ cleaned AS (
 
        CAST(latitude AS DECIMAL) AS latitude,
        CAST(longitude AS DECIMAL) AS longitude,
-       CAST(x_coordinate_state_plane AS DECIMAL) AS x_coordinate_state_plane
+       CAST(x_coordinate_state_plane AS DECIMAL) AS x_coordinate_state_plane,
        CAST(y_coordinate_state_plane AS DECIMAL) AS y_coordinate_state_plane,
 
        -- Clearer column name as well for this one
