@@ -36,7 +36,7 @@ cleaned AS (
 
        -- Date/Time
        CAST(crash_date AS TIMESTAMP) AS crash_date,
-       CAST(crash_time AS TIMESTAMP) AS crash_time,
+       CAST(crash_time AS STRING) AS crash_time,
 
 
        -- Humans injured or killed -- recast as integers, not strings
@@ -89,7 +89,7 @@ cleaned AS (
    -- Filters
    WHERE collision_id IS NOT NULL
    AND crash_date IS NOT NULL
-   AND CAST(crash_date AS DATE) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 YEAR)
+   AND CAST(crash_date AS DATETIME) >= DATE_SUB(CURRENT_DATETIME(), INTERVAL 7 YEAR)
    AND borough IS NOT NULL
 
    -- Deduplicate
@@ -98,3 +98,4 @@ cleaned AS (
 
 SELECT * FROM cleaned
 -- All should be part of this table: stg_nyc_vehicle_crashes
+
