@@ -1,25 +1,50 @@
-WITH locations AS (
+with
+    locations as (
 
-    SELECT DISTINCT
-        borough,
-        zip_code
+        select distinct
+            borough,
+            incident_zip as zip_code,
+            street_name,
+            cross_street_1 as cross_street_name,
+            cast(null as string) as off_street_name
+        from {{ ref("stg_nyc_311_vehicle_complaints") }}
+        where
+            borough is not null and incident_zip is not null and street_name is not null
 
-    FROM {{ ref('stg_nyc_311_vehicle_complaints') }}
+        union distinct
 
-    WHERE borough IS NOT NULL
-       OR zip_code IS NOT NULL
+        select distinct
+            borough,
+            zip_code,
+            on_street_name as street_name,
+            cross_street_name,
+            off_street_name
+        from {{ ref("stg_nyc_vehicle_crashes") }}
+        where
+            borough is not null and zip_code is not null and on_street_name is not null
+    ),
 
-),
+    final as (
 
-final AS (
+        select
+            {{
+                dbt_utils.generate_surrogate_key(
+                    [
+                        "borough",
+                        "zip_code",
+                        "street_name",
+                        "cross_street_name",
+                        "off_street_name",
+                    ]
+                )
+            }} as location_key,
+            borough,
+            zip_code,
+            street_name,
+            cross_street_name,
+            off_street_name
+        from locations
+    )
 
-    SELECT
-        ROW_NUMBER() OVER (ORDER BY borough, zip_code) AS location_key,
-        borough,
-        zip_code
-
-    FROM locations
-
-)
-
-SELECT * FROM final
+select *
+from final
