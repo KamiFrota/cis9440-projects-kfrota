@@ -1,5 +1,5 @@
 -- Clean and standardize NYC vehicle crash data
--- One row per service request
+-- One row per reported vehicle crash
 
 WITH source AS (
    SELECT * FROM {{ source('raw', 'source_nyc_vehicle_crashes') }}
