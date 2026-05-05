@@ -91,6 +91,7 @@ cleaned AS (
    AND crash_date IS NOT NULL
    AND CAST(crash_date AS DATETIME) >= DATE_SUB(CURRENT_DATETIME(), INTERVAL 7 YEAR)
    AND borough IS NOT NULL
+   AND zip_code IS NOT NULL
 
    -- Deduplicate
    QUALIFY ROW_NUMBER() OVER (PARTITION BY collision_id ORDER BY crash_date DESC) = 1

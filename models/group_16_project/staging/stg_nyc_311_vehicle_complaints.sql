@@ -109,6 +109,7 @@ cleaned AS (
    AND created_date IS NOT NULL
    AND CAST(created_date AS DATE) >= DATE_SUB(CURRENT_DATE(), INTERVAL 7 YEAR)
    AND borough IS NOT NULL
+   AND incident_zip IS NOT NULL
 
    -- Deduplicate
    QUALIFY ROW_NUMBER() OVER (PARTITION BY unique_key ORDER BY created_date DESC) = 1

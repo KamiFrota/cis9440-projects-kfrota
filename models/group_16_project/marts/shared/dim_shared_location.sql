@@ -9,7 +9,7 @@ with
             cast(null as string) as off_street_name
         from {{ ref("stg_nyc_311_vehicle_complaints") }}
         where
-            borough is not null and incident_zip is not null and street_name is not null
+            borough is not null and incident_zip is not null
 
         union distinct
 
@@ -21,7 +21,7 @@ with
             off_street_name
         from {{ ref("stg_nyc_vehicle_crashes") }}
         where
-            borough is not null and zip_code is not null and on_street_name is not null
+            borough is not null and zip_code is not null
     ),
 
     final as (

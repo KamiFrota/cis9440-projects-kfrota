@@ -8,13 +8,17 @@ with base as (
 prep as (
     select
         -- Business ID (diagram has veh_crash_key + Collision_ID)
+        {{ dbt_utils.generate_surrogate_key([
+            "collision_id"
+        ]) }} as veh_crash_key,
+
         collision_id,
 
         crash_date,
 
         -- Shared location inputs (must match dim_shared_location)
         borough,
-        cast(zip_code as string) as zip_code,
+        zip_code,
         on_street_name as street_name,
         cross_street_name,
         off_street_name,
@@ -50,14 +54,17 @@ prep as (
 keys as (
     select
         p.*,
-
-        {{ dbt_utils.generate_surrogate_key([
-            "borough",
-            "zip_code",
-            "street_name",
-            "cross_street_name",
-            "off_street_name"
-        ]) }} as location_key_calc,
+    {{ 
+        dbt_utils.generate_surrogate_key(
+            [
+                "borough",
+                "zip_code",
+                "street_name",
+                "cross_street_name",
+                "off_street_name",
+            ]
+        )
+    }} as location_key_calc,
 
         {{ dbt_utils.generate_surrogate_key([
             "cast(crash_date as date)"
@@ -116,15 +123,14 @@ joined as (
 
 select
     -- diagram keys/ids
-    collision_id as veh_crash_key,
-
+    veh_crash_key,
     contributing_factor_key,
     vehicle_type_key,
     people_key,
     location_key,
     date_key,
 
-    collision_id as collision_id,
+    collision_id,
 
     cast(latitude as float64) as latitude,
     cast(longitude as float64) as longitude,

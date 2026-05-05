@@ -8,9 +8,13 @@ with base as (
 prep as (
     select
         -- Business ID (staging uses request_id; diagram uses veh_complaints_key)
-        request_id as veh_complaints_key,
-
-        -- Timestamps/dates
+        
+        {{ dbt_utils.generate_surrogate_key([
+            "request_id"
+        ]) }} as veh_complaints_key,
+        
+        request_id,
+                -- Timestamps/dates
         created_date,
         closed_date,
         due_date,
@@ -18,7 +22,7 @@ prep as (
 
         -- Shared location inputs (must match dim_shared_location)
         borough,
-        cast(incident_zip as string) as zip_code,
+        incident_zip as zip_code,
         street_name,
         cross_street_1 as cross_street_name,
         cast(null as string) as off_street_name,
@@ -108,12 +112,11 @@ select
     location_key,
     problem_details_key,
     governing_region_key,
-
-    -- diagram wants these as DATE
-    cast(created_date as date) as created_date_key,
-    cast(closed_date as date) as closed_date_key,
+    date_key AS created_date_key,
+    date_key AS closed_date_key,
 
     -- diagram attributes (snake_case versions)
+    request_id,
     location_type,
     incident_address,
     address_type,
