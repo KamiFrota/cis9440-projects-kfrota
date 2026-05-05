@@ -1,4 +1,4 @@
--- Clean and standardize 311 NYP vehicle complaints service request data
+-- Clean and standardize NYC vehicle crash data
 -- One row per service request
 
 WITH source AS (
