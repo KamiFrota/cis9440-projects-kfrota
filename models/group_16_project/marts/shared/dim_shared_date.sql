@@ -30,6 +30,7 @@ final AS (
         EXTRACT(DAYOFWEEK FROM full_date) IN (1, 7) AS is_weekend,
         hour_of_day,
           
+    -- create logic for single schema field for AM/PM times
      CASE
        WHEN hour_of_day < "12:00" THEN "AM"
        ELSE "PM"
