@@ -73,10 +73,10 @@ cleaned AS (
        END AS borough,
 
 
-       CAST(on_street_name AS STRING) AS on_street_name,
-       CAST(cross_street_name AS STRING) AS cross_street_name,
-       CAST(off_street_name AS STRING) AS off_street_name,
-
+      -- Standardize street names: caps, extra whitespace, and suffixes to reduce duplicates
+       CAST( {{ clean_street_suffixes('on_street_name') }} AS STRING) AS on_street_name,
+       CAST( {{ clean_street_suffixes('cross_street_name') }} AS STRING) AS cross_street_name,
+       CAST( {{ clean_street_suffixes('off_street_name') }} AS STRING) AS off_street_name,
 
        CAST(latitude AS DECIMAL) AS latitude,
        CAST(longitude AS DECIMAL) AS longitude,

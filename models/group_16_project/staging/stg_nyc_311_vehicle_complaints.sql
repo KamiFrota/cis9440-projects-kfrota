@@ -83,12 +83,14 @@ cleaned AS (
            ELSE 'UNKNOWN or CITYWIDE'
        END AS borough,
 
+
+        -- Standardize street names: caps, extra whitespace, and suffixes to reduce duplicates
        CAST(incident_address AS STRING) AS incident_address,
-       CAST(street_name AS STRING) AS street_name,
-       CAST(cross_street_1 AS STRING) AS cross_street_1,
-       CAST(cross_street_2 AS STRING) AS cross_street_2,
-       CAST(intersection_street_1 AS STRING) AS intersection_street_1,
-       CAST(intersection_street_2 AS STRING) AS intersection_street_2,
+       CAST( {{ clean_street_suffixes('street_name') }} AS STRING) AS street_name,
+       CAST( {{ clean_street_suffixes('cross_street_1') }} AS STRING) AS cross_street_1,
+       CAST( {{ clean_street_suffixes('cross_street_2') }} AS STRING) AS cross_street_2,
+       CAST( {{ clean_street_suffixes('intersection_street_1') }} AS STRING) AS intersection_street_1,
+       CAST( {{ clean_street_suffixes('intersection_street_2') }} AS STRING) AS intersection_street_2,
 
 
        CAST(latitude AS DECIMAL) AS latitude,
