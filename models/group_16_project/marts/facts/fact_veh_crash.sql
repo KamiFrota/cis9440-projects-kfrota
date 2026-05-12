@@ -14,7 +14,8 @@ prep as (
 
         collision_id,
 
-        crash_date,
+        CAST(crash_date AS DATE) AS full_date,
+        FORMAT_TIME('%H', SAFE.PARSE_TIME('%H:%M', crash_time)) AS hour_of_day,
 
         -- Shared location inputs (must match dim_shared_location)
         borough,
@@ -67,7 +68,8 @@ keys as (
     }} as location_key_calc,
 
         {{ dbt_utils.generate_surrogate_key([
-            "cast(crash_date as date)"
+            "full_date",
+            "hour_of_day"
         ]) }} as date_key_calc,
 
         {{ dbt_utils.generate_surrogate_key([

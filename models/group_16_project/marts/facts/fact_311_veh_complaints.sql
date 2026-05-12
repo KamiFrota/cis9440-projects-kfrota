@@ -15,7 +15,8 @@ prep as (
         
         request_id,
                 -- Timestamps/dates
-        created_date,
+        CAST(created_date AS DATE) AS full_date,
+        FORMAT_TIMESTAMP('%H', created_date) AS hour_of_day,
         closed_date,
         due_date,
         resolution_action_updated_date,
@@ -69,7 +70,9 @@ keys as (
         ]) }} as location_key_calc,
 
         {{ dbt_utils.generate_surrogate_key([
-            "cast(created_date as date)"
+            "full_date",
+            "hour_of_day"
+
         ]) }} as date_key_calc,
 
         {{ dbt_utils.generate_surrogate_key([

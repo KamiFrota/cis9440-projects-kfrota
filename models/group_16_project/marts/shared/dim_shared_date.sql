@@ -18,7 +18,7 @@ WITH dates AS (
 final AS (
 
     SELECT
-        {{ dbt_utils.generate_surrogate_key(['full_date']) }} AS date_key, ---line updated
+        {{ dbt_utils.generate_surrogate_key(['full_date', 'hour_of_day']) }} AS date_key, ---line updated
 
         full_date,
         EXTRACT(YEAR FROM full_date) AS year,
